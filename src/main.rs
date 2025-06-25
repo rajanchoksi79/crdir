@@ -14,7 +14,10 @@ fn create_directory(path: &str) {
 fn create_directory_recursive(path: &str) {
     match fs::create_dir_all(path) {
         Ok(_) => println!("\nCreated directory recursively: {}\n", path),
-        Err(e) => eprintln!("\nError occured while creating directory recursively, {}\n", e),
+        Err(e) => eprintln!(
+            "\nError occured while creating directory recursively, {}\n",
+            e
+        ),
     };
 }
 
@@ -30,7 +33,10 @@ fn remove_direcotory(path: &str) {
 fn remove_direcotory_recursive(path: &str) {
     match fs::remove_dir_all(path) {
         Ok(_) => println!("\nRemoved directory recursively: {}\n", path),
-        Err(e) => eprintln!("\nError occured while removing directory recursively, {}\n", e),
+        Err(e) => eprintln!(
+            "\nError occured while removing directory recursively, {}\n",
+            e
+        ),
     };
 }
 
@@ -42,7 +48,9 @@ fn copy_directory(old_path: &str, new_path: &str) {
             Err(e) => eprintln!("\nError occured while copying directory, {}\n", e),
         }
     } else {
-        println!("Both of the given path are the same, please provide different paths to copy directory to one path to another");
+        println!(
+            "Both of the given path are the same, please provide different paths to copy directory to one path to another"
+        );
     }
 }
 
@@ -59,7 +67,9 @@ fn move_directory(old_path: &str, new_path: &str) {
             Err(e) => eprintln!("\nError occured while moving directory, {}\n", e),
         }
     } else {
-        println!("Both of the given path are the same, please provide different paths to move directory to one path to another");
+        println!(
+            "Both of the given path are the same, please provide different paths to move directory to one path to another"
+        );
     }
 }
 
@@ -72,6 +82,20 @@ fn know_current_directory() {
             e
         ),
     };
+}
+
+fn rename_dir(old_path: &str, new_path: &str) {
+    if old_path != new_path {
+        match fs::rename(old_path, new_path) {
+            Ok(_) => println!(
+                "\nDirectory name changed from: {}, to: {}\n",
+                old_path, new_path
+            ),
+            Err(e) => eprintln!("\nError occured while renaming the directory, {}\n", e),
+        };
+    } else {
+        eprintln!("Both of the given path are the same with same directory name, please provide different directory name rename it");
+    }
 }
 
 fn main() {
@@ -109,6 +133,8 @@ fn main() {
         create_directory_recursive(&address);
     } else if flag == "-v" {
         remove_direcotory_recursive(&address);
+    } else if flag == "-n" {
+        rename_dir(&address, &address_two);
     } else if flag == "-p" {
         know_current_directory();
     } else {
