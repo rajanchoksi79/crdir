@@ -17,13 +17,34 @@ fn remove_direcotory(path: &str) {
     };
 }
 
-// fn move_directory() {
+// just like move this is also temp things, i will have write real copy code, so will do later, after few tests on these basic things.
+fn copy_directory(old_path: &str, new_path: &str) {
+    if old_path != new_path {
+        match fs::create_dir(new_path) {
+            Ok(_) => println!("\nCopied directory to new path: {}\n", new_path),
+            Err(e) => eprintln!("\nError occured while copying directory, {}\n", e),
+        }
+    } else {
+        println!("Both of the given path are the same, please provide different paths to copy directory to one path to another");
+    }
+}
 
-// }
+// this is temporary here that i removed directory from old path and created new in new path, just an illution, but will have to really move directories, so will do it later.
+fn move_directory(old_path: &str, new_path: &str) {
+    if old_path != new_path {
+        match fs::remove_dir(old_path) {
+            Ok(_) => println!("\nMoving Directory from old path: {}", old_path),
+            Err(e) => eprintln!("\nError occured while moving directory, {}\n", e),
+        }
 
-// fn copy_directory() {
-
-// }
+        match fs::create_dir(new_path) {
+            Ok(_) => println!("\nDirectory moved to new path: {}\n", new_path),
+            Err(e) => eprintln!("\nError occured while moving directory, {}\n", e),
+        }
+    } else {
+        println!("Both of the given path are the same, please provide different paths to move directory to one path to another");
+    }
+}
 
 fn know_current_directory() {
     match env::current_dir() {
@@ -47,14 +68,23 @@ fn main() {
     }
 
     // for now i will using flag temporarily will make it paramenent
-    let flag = &arguments[1]; 
+    let flag = &arguments[1];
     let mut address: &str = "";
     if arguments.len() > 2 {
         address = &arguments[2];
     }
 
+    let mut address_two: &str = "";
+    if arguments.len() > 3 {
+        address_two = &arguments[3];
+    }
+
     if flag == "-c" {
         create_directory(&address);
+    } else if flag == "-m" {
+        move_directory(&address, &address_two);
+    } else if flag == "-o" {
+        copy_directory(&address, &address_two);
     } else if flag == "-r" {
         remove_direcotory(&address);
     } else if flag == "-p" {
@@ -63,6 +93,9 @@ fn main() {
         println!("\nWrong option is provided, provide valid option\n");
         println!("'-- -c' for creating directory");
         println!("'-- -r' for removing directory");
+        println!("'-- -m' for moving directory");
+        println!("'-- -o' for copying directory");
+        println!("'-- -p' for knowing directory");
         println!();
     }
 }
