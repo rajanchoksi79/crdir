@@ -47,8 +47,11 @@ fn main() {
     }
 
     // for now i will using flag temporarily will make it paramenent
-    let flag = &arguments[1];
-    let address = &arguments[2];
+    let flag = &arguments[1]; 
+    let mut address: &str = "";
+    if arguments.len() > 2 {
+        address = &arguments[2];
+    }
 
     if flag == "-c" {
         create_directory(&address);
