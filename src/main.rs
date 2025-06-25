@@ -2,7 +2,7 @@ use std::env;
 use std::fs;
 use std::process;
 
-// this is for creating directory or directories
+// this is for creating directory or directories, if there is no directory in chain then generate error
 fn create_directory(path: &str) {
     match fs::create_dir(path) {
         Ok(_) => println!("\nCreated directory: {}\n", path),
@@ -10,10 +10,27 @@ fn create_directory(path: &str) {
     };
 }
 
+// this will create directory recursively, even though there is not directory in chain of provided directory, it will create it.
+fn create_directory_recursive(path: &str) {
+    match fs::create_dir_all(path) {
+        Ok(_) => println!("\nCreated directory recursively: {}\n", path),
+        Err(e) => eprintln!("\nError occured while creating directory recursively, {}\n", e),
+    };
+}
+
+// this will remove empty directory
 fn remove_direcotory(path: &str) {
     match fs::remove_dir(path) {
         Ok(_) => println!("\nRemoved directory: {}\n", path),
         Err(e) => eprintln!("\nError occured while removing directory, {}\n", e),
+    };
+}
+
+// this will remove any directory even when it has content inside.
+fn remove_direcotory_recursive(path: &str) {
+    match fs::remove_dir_all(path) {
+        Ok(_) => println!("\nRemoved directory recursively: {}\n", path),
+        Err(e) => eprintln!("\nError occured while removing directory recursively, {}\n", e),
     };
 }
 
@@ -46,6 +63,7 @@ fn move_directory(old_path: &str, new_path: &str) {
     }
 }
 
+// this is for knowing current path, that we are in.
 fn know_current_directory() {
     match env::current_dir() {
         Ok(p) => println!("\nCurrent working directory is: {}\n", p.display()),
@@ -87,6 +105,10 @@ fn main() {
         copy_directory(&address, &address_two);
     } else if flag == "-r" {
         remove_direcotory(&address);
+    } else if flag == "-u" {
+        create_directory_recursive(&address);
+    } else if flag == "-v" {
+        remove_direcotory_recursive(&address);
     } else if flag == "-p" {
         know_current_directory();
     } else {
