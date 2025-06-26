@@ -144,6 +144,9 @@ fn main() {
         println!("'-- -m' for moving directory");
         println!("'-- -o' for copying directory");
         println!("'-- -p' for knowing directory");
+        println!("'-- -u' for create recursive directory");
+        println!("'-- -v' for remove non-empty directory");
+        println!("'-- -n' for renaming directory");
         println!();
     }
 }
